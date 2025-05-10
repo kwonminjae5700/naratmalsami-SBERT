@@ -1,8 +1,10 @@
-from fastapi import FastAPI
-from app.schemas.schema import Input
+from app.schemas.refine_word import RequestType
+from app.services.refine_word import refine_word
 
+from fastapi import FastAPI
+    
 app = FastAPI()
 
 @app.post("/")
-def vector(input: Input):
-    return {"message":input}
+def vector(request: RequestType):
+    return refine_word(request)
