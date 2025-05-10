@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from model import Input
+from app.schemas.schema import Input
 
 app = FastAPI()
 

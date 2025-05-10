@@ -4,7 +4,7 @@ import re
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from db import get_connection
+from app.database import get_connection
 
 try:
     conn = get_connection()
