@@ -1,6 +1,6 @@
 from app.schemas.refine_word import RequestType, ResponseType
 from app.crud.purified_word import select_join_purified_word, insert_purified_word
-from app.crud.foreign_word import select_foreign_id
+from app.crud.foreign_word import select_foreign_id, insert_foreign_word
 from app.ai.kr_sbert import sentence_embedding
 from app.ai.dify import dify
 
@@ -37,4 +37,8 @@ async def refine_word(request: RequestType):
 
         else:
             # 외래어가 DB 에 없는 경우
-            print("J")
+            insert_foreign_word(foreign_word)
+            foreign_id = select_foreign_id(foreign_word)
+            print(foreign_id)
+            
+            return await use_dify(foreign_id, foreign_word, sentence)

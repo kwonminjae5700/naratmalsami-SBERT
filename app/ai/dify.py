@@ -1,5 +1,3 @@
-
-
 import httpx
 import json
 import re

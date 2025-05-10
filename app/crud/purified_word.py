@@ -27,12 +27,12 @@ def select_purified_id(purified_word: str):
     sql = "SELECT * FROM purified_word_tb WHERE purified_word = %s"
     cursor.execute(sql, (purified_word, ))
     
-    row = cursor.fetchone()
+    purified_ids = [row[0] for row in cursor.fetchall()]
     
     cursor.close()
     conn.close()
     
-    return row[0] if row is not None else None
+    return purified_ids
 
 def insert_purified_word(dify_response, foreign_id):
     conn = get_connection()
@@ -50,11 +50,14 @@ def insert_purified_word(dify_response, foreign_id):
             cursor.execute(sql, (purified_word, ))
             conn.commit()
             
-            purified_id = select_purified_id(purified_word)
+            purified_ids = select_purified_id(purified_word)
+            
+            print(purified_ids)
             
             sql = "INSERT INTO join_tb (foreign_id, purified_id) VALUES (%s, %s)"
-            cursor.execute(sql, (foreign_id, purified_id, ))
-            conn.commit()
+            for purified_id in purified_ids:
+                cursor.execute(sql, (foreign_id, purified_id, ))
+                conn.commit()
             
     cursor.close()
     conn.close()
