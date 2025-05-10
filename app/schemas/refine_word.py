@@ -10,4 +10,3 @@ class RequestType(Base):
     
 class ResponseType(Base):
     refineWord: Dict[str, List[str]]
-

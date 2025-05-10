@@ -9,7 +9,7 @@ DIFY_URL = os.getenv("DIFY_URL")
 DIFY_KEY = os.getenv("DIFY_KEY")
 
 async def dify(foreign_word: str, sentence: str):
-    print("Test")
+    print("TEST")
     async with httpx.AsyncClient() as client:
         response = await client.post(
             f"{DIFY_URL}/workflows/run",
@@ -24,7 +24,7 @@ async def dify(foreign_word: str, sentence: str):
                 "response_mode": "blocking",
                 "user": "asdfasdf-123"
             },
-            timeout=30
+            timeout=90
         )
     
     response = response.json()

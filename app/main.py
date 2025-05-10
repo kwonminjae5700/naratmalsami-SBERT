@@ -6,5 +6,5 @@ from fastapi import FastAPI
 app = FastAPI()
 
 @app.post("/")
-def vector(request: RequestType):
-    return refine_word(request)
+async def vector(request: RequestType):
+    return await refine_word(request)
