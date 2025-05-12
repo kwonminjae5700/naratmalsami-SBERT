@@ -6,7 +6,7 @@ class Base(BaseModel):
     sentence: str
     
 class RequestType(Base):
-    foreign_word: List[str]
+    foreign_word: str
     fullsentence: str
     
 class ErrorItem(BaseModel):

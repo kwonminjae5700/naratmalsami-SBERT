@@ -3,7 +3,7 @@ from app.crud.foreign_word import select_foreign_id
     
 def select_join_purified_word(foreign_id: str):
     conn = get_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(buffered=True)
     
     sql = """
         SELECT p.purified_word FROM purified_word_tb p
@@ -22,7 +22,7 @@ def select_join_purified_word(foreign_id: str):
 
 def select_purified_id(purified_word: str):
     conn = get_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(buffered=True)
     
     sql = "SELECT * FROM purified_word_tb WHERE purified_word = %s"
     cursor.execute(sql, (purified_word, ))
@@ -36,7 +36,7 @@ def select_purified_id(purified_word: str):
 
 def insert_purified_word(dify_response, foreign_id):
     conn = get_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(buffered=True)
     print(dify_response)
     
     

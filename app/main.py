@@ -15,5 +15,5 @@ app.add_middleware(
 )
 
 @app.post("/")
-async def vector(request: RequestType):
+async def refine_word_controller(request: RequestType):
     return await refine_word(request)
