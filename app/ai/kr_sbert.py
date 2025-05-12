@@ -20,6 +20,6 @@ def sentence_embedding(foreign_word: str, sentence: str, purified_words: List[st
     
 
     return {
-        "purified_word": purified_words[best_idx],
+        "purified_word": [purified_words[best_idx]],
         "score": cosine_scores[0][best_idx].item()
     }
