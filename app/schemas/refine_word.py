@@ -7,6 +7,14 @@ class Base(BaseModel):
     
 class RequestType(Base):
     foreign_word: List[str]
+    fullsentence: str
     
-class ResponseType(Base):
-    refineWord: Dict[str, List[str]]
+class ErrorItem(BaseModel):
+    code: int
+    origin_word: str
+    refine_word: List[str]
+    index: int
+    
+class ResponseType(BaseModel):
+    target_id: str
+    errors: List[ErrorItem]
