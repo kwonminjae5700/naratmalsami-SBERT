@@ -10,20 +10,21 @@ async def refine_word(request: RequestType):
     fullsentence = request.fullsentence
     foreign_word = request.foreign_word
     print("start")
+    print(request)
 
-    foreign_id = select_foreign_id(foreign_word)
+    foreign_id = await select_foreign_id(foreign_word)
     
     if not foreign_id:
         # 만약 외래어가 없다면
-        insert_foreign_word(foreign_word)
-        foreign_id = select_foreign_id(foreign_word)
+        await insert_foreign_word(foreign_word)
+        foreign_id = await select_foreign_id(foreign_word)
         
-    purified_words = select_join_purified_word(foreign_id)
+    purified_words = await select_join_purified_word(foreign_id)
         
     if purified_words:
         print("외래어에 대한 순화어가 DB 에 있다면")
         # 외래어에 대한 순화어가 DB 에 있는 경우
-        purified_embedding =  sentence_embedding(foreign_word, sentence, purified_words)
+        purified_embedding = sentence_embedding(foreign_word, sentence, purified_words)
         print(purified_embedding)
         if purified_embedding['score'] >= 0.7:
             # DB 에 있는 순화어의 의미가 상통한 경우

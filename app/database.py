@@ -1,20 +1,16 @@
-import mysql.connector
+import aiomysql
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-def get_connection():
-    global conn
-    conn = None
+async def get_connection():
+    conn = await aiomysql.connect(
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        port=int(os.getenv("DB_PORT")),
+        password=os.getenv("DB_PASSWORD"),
+        db=os.getenv("DB_NAME")
+    )
     
-    if conn is None or not conn.is_connected():
-        conn = mysql.connector.connect(
-            host=os.getenv("DB_HOST"),
-            user=os.getenv("DB_USER"),
-            port=os.getenv("DB_PORT"),
-            password=os.getenv("DB_PASSWORD"),
-            database=os.getenv("DB_NAME")
-        )
-        
     return conn
