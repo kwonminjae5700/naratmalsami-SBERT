@@ -36,7 +36,10 @@ async def insert_purified_word(dify_response, foreign_id):
     
     async with conn.cursor() as cursor:
         for purified_word in [word for values in dify_response.values() for word in values]:
-            exist_purified_id = await select_purified_id(purified_word)
+            sql = "SELECT purified_id FROM purified_word_tb WHERE purified_word = %s"
+            await cursor.execute(sql, (purified_word,))
+            
+            exist_purified_id = [row[0] for row in await cursor.fetchall()]
             
             if not exist_purified_id:
                 # DB 에 순화어가 존재하지 않는 경우

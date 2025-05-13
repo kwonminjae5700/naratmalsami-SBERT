@@ -7,7 +7,7 @@ DIFY_URL = os.getenv("DIFY_URL")
 DIFY_KEY = os.getenv("DIFY_KEY")
 
 async def dify(foreign_word: str, sentence: str):
-
+    print("dify")
     async with httpx.AsyncClient() as client:
         response = await client.post(
             f"{DIFY_URL}/workflows/run",

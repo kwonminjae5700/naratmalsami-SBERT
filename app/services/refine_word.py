@@ -16,6 +16,7 @@ async def refine_word(request: RequestType):
     
     if not foreign_id:
         # 만약 외래어가 없다면
+        print("만약 외래어가 없다면")
         await insert_foreign_word(foreign_word)
         foreign_id = await select_foreign_id(foreign_word)
         
@@ -26,7 +27,7 @@ async def refine_word(request: RequestType):
         # 외래어에 대한 순화어가 DB 에 있는 경우
         purified_embedding = sentence_embedding(foreign_word, sentence, purified_words)
         print(purified_embedding)
-        if purified_embedding['score'] >= 0.7:
+        if purified_embedding['score'] >= 0.65:
             # DB 에 있는 순화어의 의미가 상통한 경우
             print("외래어에 대한 순화어의 의미가 상통하다면")
             return ResponseType(
@@ -40,23 +41,22 @@ async def refine_word(request: RequestType):
                     )
                 ]
             )
-
             
-            # DB 에 있는 순화어의 의미가 상통하지 않은 경우
-            # 외래어가 DB 에 없는 경우
-            # 외래어에 대한 순화어가 DB 에 없는 경우
+        # DB 에 있는 순화어의 의미가 상통하지 않은 경우
+        # 외래어가 DB 에 없는 경우
+        # 외래어에 대한 순화어가 DB 에 없는 경우
 
-        response = await use_dify(foreign_id, foreign_word, sentence)
+    response = await use_dify(foreign_id, foreign_word, sentence)
     
-        return ResponseType(
-            target_id=target_id,
-            errors=[
-                ErrorItem(
-                    code=1,
-                    origin_word=key,
-                    refine_word=value,
-                    index=fullsentence.find(value)
-                )
-                for key, value in response.items()
-            ]
-        )
+    return ResponseType(
+        target_id=target_id,
+        errors=[
+            ErrorItem(
+                code=1,
+                origin_word=key,
+                refine_word=value,
+                index=fullsentence.find(key)
+            )
+            for key, value in response.items()
+        ]
+    )
