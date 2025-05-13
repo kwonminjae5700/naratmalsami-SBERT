@@ -55,3 +55,24 @@ async def insert_purified_word(dify_response, foreign_id):
                     await conn.commit()
                 
     conn.close()
+    
+async def delete_purified_word(foreign_word: str, purified_word: str):
+    conn = await get_connection()
+    
+    async with conn.cursor() as cursor:
+        sql = "SELECT foreign_id FROM foreign_word_tb WHERE foreign_word = %s"
+        await cursor.execute(sql, (foreign_word, ))
+        foreign_id = await cursor.fetchone()
+        
+        sql = "SELECT purified_id FROM purified_word_tb WHERE purified_word = %s ORDER BY purified_id DESC LIMIT 1";
+        await cursor.execute(sql, (purified_word, ))
+        purified_id = await cursor.fetchone()
+        
+        sql = "DELETE FROM join_tb WHERE foreign_id = %s AND purified_id = %s"
+        await cursor.execute(sql, (foreign_id, purified_id))
+        await conn.commit()
+        
+    return True
+        
+        
+    

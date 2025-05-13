@@ -18,3 +18,7 @@ class ErrorItem(BaseModel):
 class ResponseType(BaseModel):
     target_id: str
     errors: List[ErrorItem]
+
+class RequestDeleteType(BaseModel):
+    foreign_word: str
+    purified_word: str
